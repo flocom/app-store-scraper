@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.github
+.env
+*.log
+.DS_Store
+examples
+src/__tests__
+.claude
+cloudflared/*.json
+cloudflared/cert.pem

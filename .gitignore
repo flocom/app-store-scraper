@@ -14,6 +14,13 @@ coverage/
 .env.local
 .env.*.local
 
+# Cloudflare tunnel credentials (locally-managed tunnel)
+cloudflared/*.json
+cloudflared/cert.pem
+
+# OAuth DCR client store (local dev)
+.data/
+
 # IDEs
 .vscode/
 .idea/
@@ -28,3 +35,6 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Local tooling
+.claude/

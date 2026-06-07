@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>App Store Scraper</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍏</text></svg>"
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">🍏</span>
+        <div>
+          <h1>App Store Scraper</h1>
+          <p class="subtitle">iTunes / Mac App Store data explorer</p>
+        </div>
+      </div>
+      <div class="token-box">
+        <input
+          id="token"
+          type="password"
+          placeholder="Bearer token (if required)"
+          autocomplete="off"
+        />
+        <span id="status-dot" class="dot" title="connection status"></span>
+      </div>
+    </header>
+
+    <main>
+      <nav id="method-tabs" class="tabs" aria-label="Methods"></nav>
+
+      <section class="panel">
+        <div class="form-col">
+          <h2 id="method-title">Loading…</h2>
+          <p id="method-desc" class="desc"></p>
+          <form id="method-form"></form>
+          <div class="actions">
+            <button id="run-btn" type="button">Run ▶</button>
+            <label class="raw-toggle">
+              <input type="checkbox" id="raw-toggle" /> Raw JSON
+            </label>
+          </div>
+        </div>
+
+        <div class="result-col">
+          <div class="result-head">
+            <span id="result-meta"></span>
+            <button id="copy-btn" type="button" title="Copy JSON">Copy</button>
+          </div>
+          <div id="result"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

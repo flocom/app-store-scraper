@@ -1,0 +1,17 @@
+# Locally-managed Cloudflare Tunnel config (ALTERNATIVE to the token method).
+#
+# Use this only if you run a *locally-managed* named tunnel created with the
+# cloudflared CLI (see DEPLOY.md, "Option B"). The token method in
+# docker-compose.yml does NOT use this file — routing is set in the dashboard.
+#
+# Replace <TUNNEL_ID> with the UUID printed by `cloudflared tunnel create`.
+# The matching credentials file (<TUNNEL_ID>.json) must sit next to this file.
+
+tunnel: <TUNNEL_ID>
+credentials-file: /etc/cloudflared/<TUNNEL_ID>.json
+
+ingress:
+  - hostname: appstore-scraper.agence-zen.com
+    service: http://app:8080
+  # Everything else gets a 404.
+  - service: http_status:404

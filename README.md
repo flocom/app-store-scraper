@@ -44,6 +44,46 @@ const appReviews = await reviews({ id: 553834731, page: 1 });
 
 **📖 See [examples/all-methods.ts](examples/all-methods.ts) for comprehensive examples of all 10 API methods.**
 
+## Web GUI · REST API · MCP server
+
+Beyond the library, this repo ships a single Node server
+([`server/http.ts`](server/http.ts)) exposing three surfaces over the same 10
+methods:
+
+- **Web GUI** at `/` — a zero-build HTML/JS explorer (forms auto-generated from
+  the method schemas, results rendered as app cards / review lists).
+- **REST API** at `/api/<method>` — `GET` (query params) or `POST` (JSON body).
+- **MCP server** at `/mcp` — streamable HTTP, plus a stdio entrypoint
+  ([`server/stdio.ts`](server/stdio.ts)) for Claude Desktop.
+- **claude.ai connector** — a built-in OAuth 2.1 server (DCR + PKCE,
+  [`server/oauth.ts`](server/oauth.ts)) makes the `/mcp` endpoint installable on
+  claude.ai as a one-click custom connector.
+
+`/api` and `/mcp` are protected by a bearer token (`AUTH_TOKEN`); `/mcp` also
+accepts OAuth access tokens issued by the claude.ai flow.
+
+```bash
+# Run locally
+AUTH_TOKEN=$(openssl rand -hex 32) npm run server   # http://localhost:8080/
+
+# Or as an MCP stdio server (Claude Desktop)
+npm run mcp:stdio
+```
+
+All method definitions live in one place — [`server/methods.ts`](server/methods.ts)
+— so REST and MCP never drift apart.
+
+### Deploy (Docker + Cloudflare Tunnel)
+
+```bash
+cp .env.example .env        # set AUTH_TOKEN + TUNNEL_TOKEN
+docker compose up -d --build
+```
+
+Full step-by-step (named tunnel for `appstore-scraper.agence-zen.com`, **adding
+it on claude.ai as a custom connector**, MCP client config, security notes) is in
+**[DEPLOY.md](DEPLOY.md)**.
+
 ## API
 
 ### Methods
