@@ -3,7 +3,7 @@
 # Two services:
 #   - app:        the Node server (GUI / REST / MCP) on an internal network.
 #   - cloudflared: connects the tunnel and forwards the public hostname
-#                  appstore-scraper.agence-zen.com to the app.
+#                  mcp.example.com to the app.
 #
 # The app is NOT published on a host port — only Cloudflare can reach it,
 # and the bearer token (AUTH_TOKEN) protects /api and /mcp.
@@ -20,7 +20,7 @@ services:
       HOST: 0.0.0.0
       AUTH_TOKEN: ${AUTH_TOKEN:?set AUTH_TOKEN in .env}
       # Public HTTPS origin — used as the OAuth issuer for the claude.ai connector.
-      PUBLIC_URL: ${PUBLIC_URL:-https://appstore-scraper.agence-zen.com}
+      PUBLIC_URL: ${PUBLIC_URL:?set PUBLIC_URL in .env (your public HTTPS origin)}
       # Optional dedicated signing secret (defaults to AUTH_TOKEN if unset).
       OAUTH_SIGNING_SECRET: ${OAUTH_SIGNING_SECRET:-}
       # Where DCR-registered OAuth clients are persisted (mounted volume).

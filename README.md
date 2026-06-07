@@ -80,7 +80,7 @@ cp .env.example .env        # set AUTH_TOKEN + TUNNEL_TOKEN
 docker compose up -d --build
 ```
 
-Full step-by-step (named tunnel for `appstore-scraper.agence-zen.com`, **adding
+Full step-by-step (named tunnel for `mcp.example.com`, **adding
 it on claude.ai as a custom connector**, MCP client config, security notes) is in
 **[DEPLOY.md](DEPLOY.md)**.
 

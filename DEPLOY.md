@@ -14,7 +14,7 @@ The 10 scraper methods (`app`, `list`, `search`, `developer`, `reviews`,
 `ratings`, `similar`, `suggest`, `privacy`, `versionHistory`) are defined once
 in [`server/methods.ts`](server/methods.ts) and shared by REST + MCP.
 
-Target public URL: **https://appstore-scraper.agence-zen.com**
+Target public URL: **https://mcp.example.com**
 
 ---
 
@@ -38,7 +38,7 @@ logged).
 ### 2.1 Prerequisites
 
 - Docker + Docker Compose
-- A Cloudflare account with the **agence-zen.com** zone added
+- A Cloudflare account with the **example.com** zone added
 - The `cloudflared` connector runs as a container — nothing to install locally
 
 ### 2.2 Create the tunnel (Option A — token, recommended)
@@ -51,7 +51,7 @@ Remotely-managed tunnel; routing is configured in the dashboard.
    that follows `--token` — that is your `TUNNEL_TOKEN`.
 4. **Public Hostname** tab → **Add a public hostname**:
    - Subdomain: `appstore-scraper`
-   - Domain: `agence-zen.com`
+   - Domain: `example.com`
    - Type: `HTTP`
    - URL: `app:8080`  ← the compose service name + port
 5. Save. Cloudflare auto-creates the `appstore-scraper` CNAME DNS record.
@@ -71,13 +71,13 @@ docker compose logs -f cloudflared   # expect "Registered tunnel connection"
 Verify:
 
 ```bash
-curl https://appstore-scraper.agence-zen.com/healthz
+curl https://mcp.example.com/healthz
 curl -H "Authorization: Bearer $AUTH_TOKEN" \
   -H 'Content-Type: application/json' -d '{"term":"weather","num":3}' \
-  https://appstore-scraper.agence-zen.com/api/search
+  https://mcp.example.com/api/search
 ```
 
-The GUI is at https://appstore-scraper.agence-zen.com/ — paste the token in the
+The GUI is at https://mcp.example.com/ — paste the token in the
 top-right box.
 
 ### 2.4 Option B — CLI locally-managed tunnel (alternative)
@@ -87,7 +87,7 @@ If you prefer credentials files over a dashboard token:
 ```bash
 cloudflared tunnel login
 cloudflared tunnel create appstore-scraper        # prints <TUNNEL_ID> + .json
-cloudflared tunnel route dns appstore-scraper appstore-scraper.agence-zen.com
+cloudflared tunnel route dns appstore-scraper mcp.example.com
 ```
 
 - Put the generated `<TUNNEL_ID>.json` into `./cloudflared/`.
@@ -119,7 +119,7 @@ token pasting in the UI.
 
 1. claude.ai → **Settings → Connectors → Add custom connector**.
 2. Name: `App Store Scraper` · URL:
-   `https://appstore-scraper.agence-zen.com/mcp`
+   `https://mcp.example.com/mcp`
 3. Click **Add**, then **Connect**. A browser window opens our consent page.
 4. Paste your **`AUTH_TOKEN`** (the shared secret from `.env`) and click
    **Authorize**. Done — the 10 tools appear in Claude.
@@ -148,7 +148,7 @@ Any MCP client that supports **streamable HTTP** with auth headers:
   "mcpServers": {
     "app-store-scraper": {
       "type": "http",
-      "url": "https://appstore-scraper.agence-zen.com/mcp",
+      "url": "https://mcp.example.com/mcp",
       "headers": { "Authorization": "Bearer YOUR_TOKEN" }
     }
   }
@@ -159,7 +159,7 @@ Add it to Claude Code with:
 
 ```bash
 claude mcp add --transport http app-store-scraper \
-  https://appstore-scraper.agence-zen.com/mcp \
+  https://mcp.example.com/mcp \
   --header "Authorization: Bearer YOUR_TOKEN"
 ```
 

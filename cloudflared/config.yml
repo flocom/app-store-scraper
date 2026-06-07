@@ -11,7 +11,7 @@ tunnel: <TUNNEL_ID>
 credentials-file: /etc/cloudflared/<TUNNEL_ID>.json
 
 ingress:
-  - hostname: appstore-scraper.agence-zen.com
+  - hostname: mcp.example.com
     service: http://app:8080
   # Everything else gets a 404.
   - service: http_status:404
